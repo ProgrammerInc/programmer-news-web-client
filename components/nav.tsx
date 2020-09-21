@@ -4,7 +4,7 @@ import Link from 'next/link';
 const links = [
   {
     key: null,
-    href: 'https://github.com/segmentio/create-next-app',
+    href: 'https://github.com/ProgrammerInc',
     label: 'Github',
   },
 ].map((link) => {
