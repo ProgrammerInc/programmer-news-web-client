@@ -1,0 +1,40 @@
+{
+  "name": "@programmer/news-web",
+  "description": "Programmer News React.JS Front-End Web Client",
+  "private": true,
+  "version": "0.1.0",
+  "author": {
+    "name": "Programmer Incorporated",
+    "email": "programmer.incorporated@gmail.com",
+    "url": "https://programmer.inc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProgrammerInc/programmer-news-web-client.git"
+  },
+  "license": "MIT",
+  "homepage": "https://programmer.news",
+  "bugs": {
+    "url": "https://github.com/ProgrammerInc/programmer-news-web-client/issues"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^9.5.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "keywords": [
+    "programmer inc",
+    "programmer",
+    "incorporated",
+    "news",
+    "reactjs",
+    "front-end",
+    "web",
+    "client"
+  ]
+}
