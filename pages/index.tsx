@@ -1,89 +1,42 @@
-import { useQuery, gql } from '@apollo/client';
+/* eslint-disable @typescript-eslint/no-unused-vars-experimental */
 import React from 'react';
-import Head from '../components/head';
-import Nav from '../components/nav';
+import Link from 'next/link';
+import { connect } from 'react-redux';
+import { NextPageContext } from 'next';
+import { State } from '../lib/reducer';
+import Home from '../components/home';
 
-interface Article {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  link: string;
+export interface PageProps extends State {
+  pageProp: string;
+  appProp: string;
 }
 
-interface ArticleData {
-  getArticles: Article[];
-}
+class Index extends React.Component<PageProps> {
+  public static async getInitialProps({
+    store,
+    pathname,
+    query,
+    req,
+  }: NextPageContext<State>) {
+    if (req) {
+      // All async actions must be await'ed
+      await store.dispatch({ type: 'PAGE', payload: 'server' });
 
-const GET_ARTICLES = gql`
-  query GetArticles {
-    getArticles {
-      id
-      title
-      description
-      image
-      link
+      // Some custom thing for this particular page
+      return { pageProp: 'server' };
     }
+
+    // await is not needed if action is synchronous
+    store.dispatch({ type: 'PAGE', payload: 'client' });
+
+    // Some custom thing for this particular page
+    return { pageProp: 'client' };
   }
-`;
 
-const Home = () => {
-  const { loading, data } = useQuery<ArticleData>(GET_ARTICLES);
-  return (
-    <div className="home">
-      <Head title="Home" />
-      <Nav />
-      <div className="container">
-        <h1>Articles</h1>
-        {loading ? (
-          <p>Loading ...</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Image</th>
-                <th>Description</th>
-                <th>Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data &&
-                data.getArticles.map((article) => (
-                  <tr key={article.id}>
-                    <td>{article.title}</td>
-                    <td>
-                      <img
-                        src={article.image}
-                        alt={article.title}
-                        height={100}
-                        width={100}
-                      />
-                    </td>
-                    <td>{article.description}</td>
-                    <td>
-                      <a href={article.link} title={article.title}>
-                        {article.link}
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+  public render() {
+    const { pageProp, appProp, app, page } = this.props;
+    return <Home />;
+  }
+}
 
-      <style jsx>{`
-        .home {
-          width: 100%;
-          color: #333;
-        }
-        .container {
-          padding: 0 25px;
-        }
-      `}</style>
-    </div>
-  );
-};
-
-export default Home;
+export default connect((state) => state)(Index);
